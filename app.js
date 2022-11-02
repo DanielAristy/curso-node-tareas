@@ -26,6 +26,12 @@ const main = async () => {
       case "2":
         tasks.fullListing();
         break;
+      case "3":
+        tasks.listPendingCompletedTask();
+        break;
+      case "4":
+        tasks.listPendingCompletedTask(false);
+        break;
     }
 
     save(tasks.getTaskList);
