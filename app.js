@@ -1,41 +1,37 @@
-require('colors');
+require("colors");
 
-const { inquirerMenu, pause, readInput } = require('./helpers/inquirer');
-const { save, read } = require('./helpers/file');
-const Tasks = require('./models/Tasks');
+const { inquirerMenu, pause, readInput } = require("./helpers/inquirer");
+const { save, read } = require("./helpers/file");
+const Tasks = require("./models/Tasks");
 
-
-console.clear(); 
+console.clear();
 
 const main = async () => {
+  let option = "";
 
-    let option = '';
+  const tasks = new Tasks();
 
-    const tasks = new Tasks()
+  const taskDB = read();
 
-    const taskDB = read();
+  if (taskDB) tasks.loadTasks(taskDB);
 
-    if (taskDB) tasks.loadTasks(taskDB)
+  do {
+    option = await inquirerMenu();
 
-    do {
-        option = await inquirerMenu();
+    switch (option) {
+      case "1":
+        const description = await readInput("Descripcion:");
+        tasks.createTask(description);
+        break;
+      case "2":
+        tasks.fullListing();
+        break;
+    }
 
-        switch (option) {
-            case '1':
-                const description = await readInput('Descripcion:');
-                tasks.createTask(description)
-                break;
-            case '2':
-                console.log(tasks.getTaskList);
-                break;
-        }
+    save(tasks.getTaskList);
 
-        save(tasks.getTaskList)
-
-        if (option !== '0') await pause();
-
-    } while (option !== '0');
-   
-}
+    if (option !== "0") await pause();
+  } while (option !== "0");
+};
 
 main();
