@@ -59,6 +59,12 @@ class Tasks {
       }
     });
   }
+
+  deleteTaks(id = "") {
+    if (this.tasksList[id]) {
+      delete this.tasksList[id];
+    }
+  }
 }
 
 module.exports = Tasks;
