@@ -48,7 +48,9 @@ class Tasks {
         // Mostrar Completadas
         if (dateComplete) {
           index += 1;
-          console.log(`${index.toString().green}. ${description} :: ${state}`);
+          console.log(
+            `${index.toString().green}. ${description} :: ${dateComplete.green}`
+          );
         }
       } else {
         // Mostrar Pendientes
@@ -64,6 +66,21 @@ class Tasks {
     if (this.tasksList[id]) {
       delete this.tasksList[id];
     }
+  }
+
+  toggleComplete(ids = []) {
+    ids.forEach((id) => {
+      const task = this.tasksList[id];
+      if (!task.dateComplete) {
+        task.dateComplete = new Date().toISOString();
+      }
+    });
+
+    this.getTaskList.forEach((task) => {
+      if (!ids.includes(task.id)) {
+        this.tasksList[task.id].dateComplete = null;
+      }
+    });
   }
 }
 
